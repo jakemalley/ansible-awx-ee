@@ -1,0 +1,4 @@
+kubernetes
+ansible-lint
+yamllint
+molecule[podman]

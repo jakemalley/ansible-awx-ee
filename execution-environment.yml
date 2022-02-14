@@ -1,0 +1,24 @@
+---
+version: 1
+dependencies:
+  galaxy: requirements.yml
+  python: requirements.txt
+  system: bindep.txt
+
+build_arg_defaults:
+  EE_BUILDER_IMAGE: quay.io/jakemalley/awx-ee:ansible-builder_latest
+  EE_BASE_IMAGE: quay.io/jakemalley/awx-ee:ansible-runner_stable-2.12-devel
+
+additional_build_steps:
+  prepend: |
+    RUN \
+      pip3 install --upgrade pip setuptools
+
+  append: |
+    RUN \
+      setcap -r /usr/bin/vault && unlink /usr/sbin/packer && \
+      curl -L "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl" -o /usr/local/bin/kubectl && \
+      chmod 0755 /usr/local/bin/kubectl && \
+      curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 && \
+      chmod 700 get_helm.sh && bash ./get_helm.sh && rm -f ./get_helm.sh
+

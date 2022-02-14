@@ -1,0 +1,6 @@
+gnupg
+git
+git-crypt
+terraform
+packer
+vault

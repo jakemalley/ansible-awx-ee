@@ -1,0 +1,25 @@
+---
+- hosts: all
+  connection: local
+
+  gather_facts: false
+
+  tasks:
+
+    - name: debug
+      debug:
+
+    - name: test hashicorp cli tools
+      command: "{{ item }} version"
+      register: r_cli_test
+      loop:
+        - terraform
+        - vault
+        - packer
+
+    - name: debug output
+      debug:
+        msg: "{{ item.stdout_lines }}"
+      loop: "{{ r_cli_test.results }}"
+      loop_control:
+        label: "{{ item.item }}"
