@@ -18,6 +18,10 @@ jobs:
       - name: checkout
         uses: actions/checkout@v2
 
+      - name: install build requirements
+        run: |
+          pip install -r tools/build-requirements.txt
+
       - name: build
         run: |
           make build
